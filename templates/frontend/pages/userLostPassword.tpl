@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014-2020 Simon Fraser University
  * Copyright (c) 2000-2017 John Willinsky
- * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
  * @brief Password reset form.
  *
@@ -48,6 +48,16 @@
 									</div>
 								</fieldset>
 							{/if}
+
+							{* altcha spam blocker *}
+							{if $altchaEnabled}
+								<fieldset class="altcha_wrapper">
+									<div class="fields">
+										<altcha-widget challengejson='{$altchaChallenge|@json_encode}' floating></altcha-widget>
+									</div>
+								</fieldset>
+							{/if}
+
 							<div class="form-group form-group-buttons">
 								<button class="btn btn-primary" type="submit">
 									{translate key="user.login.resetPassword"}

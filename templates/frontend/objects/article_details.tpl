@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014-2020 Simon Fraser University
  * Copyright (c) 2003-2020 John Willinsky
- * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
  * @brief View of an Article which displays all details about the article.
  *  Expected to be primary object on the page.
@@ -14,12 +14,13 @@
  * Templates::Article::Main
  * Templates::Article::Details
  *
- * @uses $article Article This article
+ * @uses $article Submission This article
  * @uses $publication Publication The publication being displayed
  * @uses $firstPublication Publication The first published version of this article
  * @uses $currentPublication Publication The most recently published version of this article
  * @uses $issue Issue The issue this article is assigned to
  * @uses $section Section The journal section this article is assigned to
+ * @uses $categories Category The category this article is assigned to
  * @uses $primaryGalleys array List of article galleys that are not supplementary or dependent
  * @uses $supplementaryGalleys array List of article galleys that are supplementary
  * @uses $keywords array List of keywords assigned to this article
@@ -46,13 +47,22 @@
 			{/if}
 
 			{* Title and issue details *}
-			<div class="article-details-issue-section small-screen">
-				<a href="{url page="issue" op="view" path=$issue->getBestIssueId()}">{$issue->getIssueSeries()|escape}</a>{if $section}, <span>{$section->getLocalizedTitle()|escape}</span>{/if}
-			</div>
+			{if $issue || $section}
+				<div class="article-details-issue-section small-screen">
+					{if $issue}
+						<a href="{url page="issue" op="view" path=$issue->getBestIssueId()}">{$issue->getIssueSeries()|escape}</a>{if $section}{translate key="common.commaListSeparator"}{/if}
+					{/if}
+					{if $section}
+						<span>{$section->getLocalizedTitle()|escape}</span>
+					{/if}
+				</div>
+			{/if}
 
-			<div class="article-details-issue-identifier large-screen">
-				<a href="{url page="issue" op="view" path=$issue->getBestIssueId()}">{$issue->getIssueSeries()|escape}</a>
-			</div>
+			{if $issue}
+				<div class="article-details-issue-identifier large-screen">
+					<a href="{url page="issue" op="view" path=$issue->getBestIssueId()}">{$issue->getIssueSeries()|escape}</a>
+				</div>
+			{/if}
 
 			<h1 class="article-details-fulltitle">
 				{$publication->getLocalizedFullTitle(null, 'html')|strip_unsafe_html}
@@ -95,21 +105,21 @@
 					{foreach from=$publication->getData('authors') item=authorString key=authorStringKey}
 						{strip}
 							<li>
-								{if $authorString->getLocalizedAffiliation() or $authorString->getLocalizedBiography()}
+								{if count($authorString->getAffiliations()) > 0 or $authorString->getLocalizedBiography() or $authorString->getData('orcid')}
 								<a class="author-string-href" href="#author-{$authorStringKey+1}">
 									<span>{$authorString->getFullName()|escape}</span>
 									<sup class="author-symbol author-plus">&plus;</sup>
 									<sup class="author-symbol author-minus hidden">&minus;</sup>
 								</a>
 								{else}
-								<span>{$authorString->getFullName()|escape}</span>
+									<span>{$authorString->getFullName()|escape}</span>
 								{/if}
-								{if $authorString->getOrcid()}
-									<a class="orcidImage" href="{$authorString->getOrcid()|escape}">
-										{if $orcidIcon}
+								{if $authorString->getData('orcid')}
+									<a class="orcidImage" href="{$authorString->getData('orcid')|escape}">
+										{if $authorString->hasVerifiedOrcid()}
 											{$orcidIcon}
 										{else}
-											<img src="{$baseUrl}/{$orcidImage}">
+											{$orcidUnauthenticatedIcon}
 										{/if}
 									</a>
 								{/if}
@@ -127,19 +137,25 @@
 							<div class="article-details-author-name small-screen">
 								{$author->getFullName()|escape}
 							</div>
-							{if $author->getLocalizedAffiliation()}
-								<div class="article-details-author-affiliation">
-									{$author->getLocalizedAffiliation()|escape}
-									{if $author->getData('rorId')}
-										<a class="rorImage" href="{$author->getData('rorId')|escape}">{$rorIdIcon}</a>
-									{/if}
-								</div>
+							{if count($author->getAffiliations()) > 0}
+								{foreach name="affiliations" from=$author->getAffiliations() item="affiliation"}
+									<div class="article-details-author-affiliation">
+										{$affiliation->getLocalizedName()|escape}
+										{if $affiliation->getRor()}
+											<a class="rorImage" href="{$affiliation->getRor()|escape}">{$rorIdIcon}</a>
+										{/if}
+									</div>
+								{/foreach}
 							{/if}
-							{if $author->getOrcid()}
+							{if $author->getData('orcid')}
 								<div class="article-details-author-orcid">
-									<a href="{$author->getOrcid()|escape}" target="_blank">
-										{$orcidIcon}
-										{$author->getOrcid()|escape}
+									<a href="{$author->getData('orcid')|escape}" target="_blank">
+										{if $author->hasVerifiedOrcid()}
+											{$orcidIcon}
+										{else}
+											{$orcidUnauthenticatedIcon}
+										{/if}
+										{$author->getOrcidDisplayValue()|escape}
 									</a>
 								</div>
 							{/if}
@@ -150,12 +166,12 @@
 								{* Store author biographies to print as modals in the footer *}
 								{capture append="authorBiographyModalsTemp"}
 									<div
-											class="modal fade"
-											id="authorBiographyModal{$authorKey+1}"
-											tabindex="-1"
-											role="dialog"
-											aria-labelledby="authorBiographyModalTitle{$authorKey+1}"
-											aria-hidden="true"
+										class="modal fade"
+										id="authorBiographyModal{$authorKey+1}"
+										tabindex="-1"
+										role="dialog"
+										aria-labelledby="authorBiographyModalTitle{$authorKey+1}"
+										aria-hidden="true"
 									>
 										<div class="modal-dialog" role="document">
 											<div class="modal-content">

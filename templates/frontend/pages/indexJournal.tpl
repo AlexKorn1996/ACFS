@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014-2020 Simon Fraser University
  * Copyright (c) 2003-2020 John Willinsky
- * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
  * @brief Display the index page for a journal
  *
@@ -37,7 +37,7 @@
 		</div>
 
 		{* make the entire block conditional if there aren't any additional issue data *}
-		{if  $issue->getLocalizedCoverImageUrl() || $issue->hasDescription() || $issueGalleys}
+		{if $issue->getLocalizedCoverImageUrl() || $issue->hasDescription() || $issueGalleys}
 			<div class="row justify-content-center homepage-issue-header">
 				{if $issue->getLocalizedCoverImageUrl()}
 					<div class="col-lg-3">
@@ -96,16 +96,16 @@
 		<h2 class="visually-hidden">{translate key="announcement.announcementsHome"}</h2>
 		{foreach from=$announcements item=announcement}
 			<article class="col-md-4 homepage-announcement">
-				<h3 class="homepage-announcement-title">{$announcement->getLocalizedTitle()|escape}</h3>
-				<p>{$announcement->getLocalizedDescriptionShort()|strip_unsafe_html}
+				<h3 class="homepage-announcement-title">{$announcement->getLocalizedData('title')|escape}</h3>
+				<p>{$announcement->getLocalizedData('descriptionShort')|strip_unsafe_html}
 					<br>
-					<a href="{url router=$smarty.const.ROUTE_PAGE page="announcement" op="view" path=$announcement->getId()}">
+					<a href="{url router=$smarty.const.ROUTE_PAGE page="announcement" op="view" path=$announcement->id}">
 						{capture name="more" assign="more"}{translate key="common.more"}{/capture}
 						{translate key="plugins.themes.healthSciences.more" text=$more}
 					</a>
 				</p>
 				<footer>
-					<small class="homepage-announcement-date">{$announcement->getDatePosted()|date_format:$dateFormatLong}</small>
+					<small class="homepage-announcement-date">{$announcement->datePosted|date_format:$dateFormatLong}</small>
 				</footer>
 			</article>
 		{/foreach}

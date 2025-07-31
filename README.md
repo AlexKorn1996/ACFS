@@ -1,10 +1,10 @@
 # Health Sciences Theme
 
-| main        |3.4.0   |  3.3.0    |
-|--------- |  --- | ---- |
-| [![healthSciences](https://github.com/pkp/healthSciences/actions/workflows/main.yml/badge.svg)](https://github.com/pkp/healthSciences/actions/workflows/main.yml) | [![healthSciences](https://github.com/pkp/healthSciences/actions/workflows/stable-3_4_0.yml/badge.svg)](https://github.com/pkp/healthSciences/actions/workflows/stable-3_4_0.yml) | [![healthSciences](https://github.com/pkp/healthSciences/actions/workflows/stable-3_3_0.yml/badge.svg)](https://github.com/pkp/healthSciences/actions/workflows/stable-3_3_0.yml) |
-
 An official theme for [OJS 3.1.1+](https://pkp.sfu.ca/ojs/) designed for health science journals or any journal that wants a clean, modern appearance.
+
+| main                                                                                                                                                              | 3.5.0                                                                                                                                                                             | 3.4.0                                                                                                                                                                             | 3.3.0                                                                                                                                                                             |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [![healthSciences](https://github.com/pkp/healthSciences/actions/workflows/main.yml/badge.svg)](https://github.com/pkp/healthSciences/actions/workflows/main.yml) | [![healthSciences](https://github.com/pkp/healthSciences/actions/workflows/stable-3_5_0.yml/badge.svg)](https://github.com/pkp/healthSciences/actions/workflows/stable-3_5_0.yml) | [![healthSciences](https://github.com/pkp/healthSciences/actions/workflows/stable-3_4_0.yml/badge.svg)](https://github.com/pkp/healthSciences/actions/workflows/stable-3_4_0.yml) | [![healthSciences](https://github.com/pkp/healthSciences/actions/workflows/stable-3_3_0.yml/badge.svg)](https://github.com/pkp/healthSciences/actions/workflows/stable-3_3_0.yml) |
 
 This theme was commissioned and is maintained by the [Public Knowledge Project](https://pkp.sfu.ca/). For all non-technical questions, please visit the [PKP Forum](https://forum.pkp.sfu.ca/).
 
@@ -100,7 +100,7 @@ Suggestions for improving this guide can be made to support@publicknowledgeproje
 
 ## License
 
-This theme is released under the GPL license.
+This plugin is licensed under the GNU General Public License. See the file LICENSE for the complete terms of this license.
 
 The PT Serif and Fira Sans fonts are distributed under the terms of the [Open Font License](https://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL).
 

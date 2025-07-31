@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014-2020 Simon Fraser University
  * Copyright (c) 2003-2020 John Willinsky
- * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
  * User registration form.
  *
@@ -39,6 +39,15 @@
 									<div class="g-recaptcha" data-sitekey="{$recaptchaPublicKey|escape}">
 									</div><label for="g-recaptcha-response" style="display:none;" hidden>Recaptcha response</label>
 								</div>
+							</div>
+						</fieldset>
+					{/if}
+
+					{* altcha spam blocker *}
+					{if $altchaEnabled}
+						<fieldset class="altcha_wrapper">
+							<div class="fields">
+								<altcha-widget challengejson='{$altchaChallenge|@json_encode}' floating></altcha-widget>
 							</div>
 						</fieldset>
 					{/if}

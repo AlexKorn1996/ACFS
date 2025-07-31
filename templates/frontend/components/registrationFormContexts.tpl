@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2014-2020 Simon Fraser University
  * Copyright (c) 2003-2020 John Willinsky
- * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
+ * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
  * @brief Display role selection for all of the journals/presses on this site
  *
@@ -40,12 +40,12 @@
 					<div class="form-group">
 						<div class="roles">
 							{foreach from=$readerUserGroups[$contextId] item=userGroup}
-								{if $userGroup->getPermitSelfRegistration()}
-									{assign var="userGroupId" value=$userGroup->getId()}
+								{if $userGroup->permitSelfRegistration}
+									{assign var="userGroupId" value=$userGroup->id}
 									<div class="form-check">
 										<input type="checkbox" class="form-check-input" id="readerGroup[{$userGroupId}]" name="readerGroup[{$userGroupId}]"{if in_array($userGroupId, $userGroupIds)} checked="checked"{/if}>
 										<label for="readerGroup[{$userGroupId}]">
-											{$userGroup->getLocalizedName()|escape}
+											{$userGroup->getLocalizedData('name')|escape}
 										</label>
 										{if in_array($userGroupId, $userGroupIds)}
 											{assign var=isSelected value=true}
@@ -54,12 +54,12 @@
 								{/if}
 							{/foreach}
 							{foreach from=$reviewerUserGroups[$contextId] item=userGroup}
-								{if $userGroup->getPermitSelfRegistration()}
-									{assign var="userGroupId" value=$userGroup->getId()}
+								{if $userGroup->permitSelfRegistration}
+									{assign var="userGroupId" value=$userGroup->id}
 									<div class="form-check">
 										<input type="checkbox" class="form-check-input" id="reviewerGroup[{$userGroupId}]" name="reviewerGroup[{$userGroupId}]"{if in_array($userGroupId, $userGroupIds)} checked="checked"{/if}>
 										<label for="reviewerGroup[{$userGroupId}]">
-											{$userGroup->getLocalizedName()|escape}
+											{$userGroup->getLocalizedData('name')|escape}
 										</label>
 										{if in_array($userGroupId, $userGroupIds)}
 											{assign var=isSelected value=true}
